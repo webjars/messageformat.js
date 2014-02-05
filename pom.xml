@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <packaging>jar</packaging>
+    <groupId>org.webjars</groupId>
+    <artifactId>messageformatjs</artifactId>
+    <version>0.1.4-SNAPSHOT</version>
+    <name>messageformat.js</name>
+    <description>WebJar for messageformat.js - ICU MessageFormat for Javascript - i18n Plural and Gender Capable Messages</description>
+    <url>http://webjars.org</url>
+
+    <licenses>
+        <license>
+            <name>WTFPL</name>
+            <url>http://www.wtfpl.net/txt/copying/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>http://github.com/webjars/messageformat.js</url>
+        <connection>scm:git:https://github.com/webjars/messageformat.js.git</connection>
+        <developerConnection>scm:git:https://github.com/webjars/messageformat.js.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>tjuricek</id>
+            <name>Tristan Juricek</name>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <upstreamVersion>0.1.4</upstreamVersion>
+        <downloadUrl>https://raw.github.com/jedtoolkit/messageformat.js/v${upstreamVersion}</downloadUrl>
+        <destinationDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${upstreamVersion}</destinationDir>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0-beta-4</version>
+                <executions>
+                    <execution>
+                        <id>download-full-js</id>
+                        <phase>process-resources</phase>
+                        <goals><goal>download-single</goal></goals>
+                        <configuration>
+                            <url>${downloadUrl}</url>
+                            <fromFile>messageformat.js</fromFile>
+                            <toDir>${destinationDir}</toDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.3.2</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
