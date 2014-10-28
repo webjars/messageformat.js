@@ -41,7 +41,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <upstreamVersion>0.1.4</upstreamVersion>
-        <downloadUrl>https://raw.github.com/jedtoolkit/messageformat.js/v${upstreamVersion}</downloadUrl>
+        <downloadUrl>https://github.com/SlexAxton/messageformat.js/archive</downloadUrl>
         <destinationDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${upstreamVersion}</destinationDir>
     </properties>
 
@@ -58,8 +58,51 @@
                         <goals><goal>download-single</goal></goals>
                         <configuration>
                             <url>${downloadUrl}</url>
-                            <fromFile>messageformat.js</fromFile>
-                            <toDir>${destinationDir}</toDir>
+                            <fromFile>v${upstreamVersion}.zip</fromFile>
+                            <toFile>${project.build.directory}/${project.artifactId}.zip</toFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>truezip-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>unpack-zip</id>
+                        <goals>
+                            <goal>cp</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <from>${project.build.directory}/${project.artifactId}.zip</from>
+                            <to>${project.build.directory}</to>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ${project.build.directory}/${name}-${upstreamVersion}
+                                    </directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${destinationDir}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
